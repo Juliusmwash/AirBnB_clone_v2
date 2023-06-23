@@ -7,7 +7,7 @@ from models.city import City
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-class State(BaseModel, Baseu):
+class State(BaseModel, Base):
     """ State class """
 
     __tablename__ = "states"
