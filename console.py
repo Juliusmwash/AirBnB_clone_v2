@@ -238,23 +238,20 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             if getenv('HBNB_TYPE_STORAGE') == 'db':
-                try:
-                    cls = globals()[args]
-                    storage.all(cls)
-                except Exception as e:
-                    pass
+                for k, v in storage.all(args).items():
+                        print_list.append(str(v))
             else:
                 for k, v in storage._FileStorage__objects.items():
                     if k.split('.')[0] == args:
                         print_list.append(str(v))
-                print(print_list)
         else:
             if getenv('HBNB_TYPE_STORAGE') == 'db':
-                storage.all()
+                for k, v in storage.all().items():
+                        print_list.append(str(v))
             else:
                 for k, v in storage._FileStorage__objects.items():
                     print_list.append(str(v))
-                print(print_list)
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """

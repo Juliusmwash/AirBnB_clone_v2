@@ -57,12 +57,14 @@ class DBStorage:
             objs.extend(self.__session.query(Amenity).all())
         else:
             if type(cls) == str:
+                objs = None
                 try:
                     cls = globals()[cls]
-                    objs = self.__session.query(cls)
+                    objs = self.__session.query(cls).all()
                 except Exception as e:
                     objs = []
-        return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+
+                return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
 
     def new(self, obj):
         """Add obj to the current database session."""
