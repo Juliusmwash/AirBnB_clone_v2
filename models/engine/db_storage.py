@@ -81,7 +81,7 @@ class DBStorage:
         else:
             database_exists = inspector.has_database('hbnb_test_db')
             if not database_exists:
-                with open('setup_mysql_dev.sql', 'r') as script_file:
+                with open('setup_mysql_test.sql', 'r') as script_file:
                     sql_script = script_file.read()
                     print("sql_script :\n{}".format(sql_script))
                 engine.execute(sql_script)
