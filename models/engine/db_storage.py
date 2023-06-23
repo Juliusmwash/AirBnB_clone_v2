@@ -14,8 +14,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.engine import reflection
-from sqlalchemy.exc import OperationalError
 
 
 class DBStorage:
@@ -68,57 +66,6 @@ class DBStorage:
                 objs = []
 
         return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
-
-    def setup_database(self):
-        """Create the engine"""
-        db_url = "mysql+mysqldb://{}:{}@{}/{}".format(
-                getenv("HBNB_MYSQL_USER"),
-                getenv("HBNB_MYSQL_PWD"),
-                getenv("HBNB_MYSQL_HOST"),
-                getenv("HBNB_MYSQL_DB"))
-        self.__engine = create_engine(db_url, pool_pre_ping=True)
-
-        try:
-            # Execute a sample query to test the connection
-            with self.__engine.connect() as connection:
-                result = connection.execute("SELECT 1")
-
-        except OperationalError as e:
-            # Catch and handle the SQLAlchemy OperationalError
-            if e.orig.args and e.orig.args[0] == 1049:
-                # Recreate the database dynamically
-                self.create_database()
-
-                # Reattempt to connect to the newly created database
-                self.__engine.dispose()
-                self.__engine = create_engine(db_url, pool_pre_ping=True)
-            else:
-                print("Error:", e)
-
-    def create_database(self):
-        inspector = reflection.Inspector.from_engine(self.__engine)
-        if getenv('HBNB_ENV') == "dev":
-            database_exists = inspector.has_database('hbnb_dev_db')
-            if not database_exists:
-                with open('setup_mysql_dev.sql', 'r') as script_file:
-                    sql_script = script_file.read()
-                    print("sql_script :\n{}".format(sql_script))
-                    self.__engine.execute(sql_script)
-                self.__engine.dispose()
-                self.__engine = create_engine(db_url, pool_pre_ping=True)
-            else:
-                print("database hbnb_dev_db exists")
-        else:
-            database_exists = inspector.has_database('hbnb_test_db')
-            if not database_exists:
-                with open('setup_mysql_test.sql', 'r') as script_file:
-                    sql_script = script_file.read()
-                    print("sql_script :\n{}".format(sql_script))
-                    self.__engine.execute(sql_script)
-                self.__engine.dispose()
-                self.__engine = create_engine(db_url, pool_pre_ping=True)
-            else:
-                print("database hbnb_test_db exists")
 
     def new(self, obj):
         """Add obj to the current database session."""
