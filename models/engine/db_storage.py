@@ -14,6 +14,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.engine import reflection
 
 
 class DBStorage:
@@ -65,6 +66,27 @@ class DBStorage:
                 objs = []
 
         return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+
+    def create_database(self):
+        inspector = reflection.Inspector.from_engine(engine)
+        if getenv('HBNB_ENV') == "dev":
+            database_exists = inspector.has_database('hbnb_dev_db')
+            if not database_exists:
+                with open('setup_mysql_dev.sql', 'r') as script_file:
+                    sql_script = script_file.read()
+                    print("sql_script :\n{}".format(sql_script))
+                engine.execute(sql_script)
+            else:
+                print("database hbnb_dev_db exists")
+        else:
+            database_exists = inspector.has_database('hbnb_test_db')
+            if not database_exists:
+                with open('setup_mysql_dev.sql', 'r') as script_file:
+                    sql_script = script_file.read()
+                    print("sql_script :\n{}".format(sql_script))
+                engine.execute(sql_script)
+            else:
+                print("database hbnb_test_db exists")
 
     def new(self, obj):
         """Add obj to the current database session."""
