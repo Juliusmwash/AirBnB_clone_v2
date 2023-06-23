@@ -48,6 +48,8 @@ class DBStorage:
         Return:
             Dict of queried classes in the format <class name>.<obj id> = obj.
         """
+        objs = None
+
         if cls is None:
             objs = self.__session.query(State).all()
             objs.extend(self.__session.query(City).all())
@@ -56,15 +58,13 @@ class DBStorage:
             #objs.extend(self.__session.query(Review).all())
             #objs.extend(self.__session.query(Amenity).all())
         else:
-            if type(cls) == str:
-                objs = None
-                try:
-                    cls = globals()[cls]
-                    objs = self.__session.query(cls).all()
-                except Exception as e:
-                    objs = []
+            try:
+                cls = globals()[cls]
+                objs = self.__session.query(cls).all()
+            except Exception as e:
+                objs = []
 
-                return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
+        return {"{}.{}".format(type(o).__name__, o.id): o for o in objs}
 
     def new(self, obj):
         """Add obj to the current database session."""
