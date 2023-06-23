@@ -152,7 +152,6 @@ class HBNBCommand(cmd.Cmd):
             kwargs[key] = value
         try:
             obj = obj_class(**kwargs)
-            storage.create_database()
             obj.save()
             print(obj.id)
         except Exception as e:
