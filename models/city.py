@@ -4,6 +4,7 @@ import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class City(BaseModel, Base):
@@ -12,12 +13,17 @@ class City(BaseModel, Base):
     __tablename__ = "cities"
     name = Column(String(128), nullable=False)
     state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-    #places = relationship("Place", backref="cities", cascade="delete")
+    places = relationship("Place", backref="cities", cascade="delete")
 
     def __init__(self, *args, **kwargs):
+        """
+        Instanciate City class and builds a relationship
+        with the State class
+        """
         super().__init__(**kwargs)
         from models.state import State
-        states = models.storage.all(State)
-        for key, obj in states.items():
-            if obj.id == self.state_id:
-                self.state = obj
+        if getenv("HBNB_TYPE_STORAGE") == "db":
+            states = models.storage.all(State)
+            for key, obj in states.items():
+                if obj.id == self.state_id:
+                    self.state = obj
