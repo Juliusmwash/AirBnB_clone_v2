@@ -2,7 +2,7 @@
 
 # MySQL server credentials
 MYSQL_ROOT_USER="root"
-MYSQL_ROOT_PASSWORD="01909600"
+MYSQL_ROOT_PASSWORD=""
 
 # Database and user details
 DB_NAME="hbnb_test_db"

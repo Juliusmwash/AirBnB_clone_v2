@@ -152,7 +152,11 @@ class HBNBCommand(cmd.Cmd):
             kwargs[key] = value
         try:
             obj = obj_class(**kwargs)
-            storage.create_database()
+            if isinstance(obj, City):
+                states = storage.all(States)
+                for state in states:
+                    if state.id == obj.state_id:
+                        print("match found: {}".format(state.id))
             obj.save()
             print(obj.id)
         except Exception as e:
