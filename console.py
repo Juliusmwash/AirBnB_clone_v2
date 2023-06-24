@@ -160,6 +160,7 @@ class HBNBCommand(cmd.Cmd):
             obj.save()
             print(obj.id)
         except Exception as e:
+            print("Error: {}".format(str(e)))
             return
 
     def do_state_cities(self, sta_id):

@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
-from models.state import State
-from models import storage
 
 
 class City(BaseModel, Base):
@@ -16,8 +15,9 @@ class City(BaseModel, Base):
     #places = relationship("Place", backref="cities", cascade="delete")
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        states = storage.all(State)
-        for key, state in states.items():
-            if state.id == self.state_id:
-                self.state = state
+        super().__init__(**kwargs)
+        from models.state import State
+        states = models.storage.all(State)
+        for key, obj in states.items():
+            if obj.id == self.state_id:
+                self.state = obj
