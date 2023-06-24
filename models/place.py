@@ -32,7 +32,15 @@ class Place(BaseModel):
         """
         super().__init__(**kwargs)
         from models.user import User
+        from models.city import City
         if getenv("HBNB_TYPE_STORAGE") == "db":
+            users = models.storage.all(User)
             cities = models.storage.all(City)
-            for key, obj in cities.items():                                   if obj.id == self.city_id:
-                self.user = obj
+            for key, obj in users.items():
+                if obj.id == self.user_id:
+                    self.user = obj
+                    break
+            for key, obj in cities.items():
+                if obj.id == self.city_id:
+                    self.cities = obj
+                    break
