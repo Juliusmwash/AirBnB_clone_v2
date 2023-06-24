@@ -153,14 +153,44 @@ class HBNBCommand(cmd.Cmd):
         try:
             obj = obj_class(**kwargs)
             if isinstance(obj, City):
-                states = storage.all(States)
-                for state in states:
+                states = storage.all("State")
+                for key, state in states.items():
                     if state.id == obj.state_id:
-                        print("match found: {}".format(state.id))
+                        obj.state = state
             obj.save()
             print(obj.id)
         except Exception as e:
             return
+
+    def do_state_cities(self, sta_id):
+        """
+        Shows all the cities related to the state
+        Usage: state_cities <state id>
+        """
+        states = storage.all("State")
+        for key, state in states.items():
+            if state.id == sta_id:
+                cities = state.cities
+                count = 1
+                for city in cities:
+                    print("city {} (id = {})".format(count, city.id))
+                    count += 1
+
+    def do_delete(self, obj_id):
+        """
+        Deletes an object from the database using the object's id
+        Usage: delete <obj id>
+        """
+        try:
+            objects = storage.all()
+            for key, obj in objects.items():
+                if obj.id == obj_id:
+                    storage.delete(obj)
+                    print("Has successfully deleted the object")
+        except Exception as e:
+            print("Error: {}".format(str(e)))
+            return
+
 
     def help_create(self):
         """ Help information for the create method """

@@ -78,6 +78,7 @@ class DBStorage:
         """Delete obj from the current database session."""
         if obj is not None:
             self.__session.delete(obj)
+            self.save()
 
     def reload(self):
         """Create all tables in the database and initialize a new session."""
