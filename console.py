@@ -152,11 +152,11 @@ class HBNBCommand(cmd.Cmd):
             kwargs[key] = value
         try:
             obj = obj_class(**kwargs)
-            if isinstance(obj, City):
+            """if isinstance(obj, City):
                 states = storage.all("State")
                 for key, state in states.items():
                     if state.id == obj.state_id:
-                        obj.state = state
+                        obj.state = state"""
             obj.save()
             print(obj.id)
         except Exception as e:
