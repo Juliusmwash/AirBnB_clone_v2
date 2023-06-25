@@ -55,7 +55,7 @@ class DBStorage:
             objs.extend(self.__session.query(City).all())
             objs.extend(self.__session.query(User).all())
             objs.extend(self.__session.query(Place).all())
-            #objs.extend(self.__session.query(Review).all())
+            objs.extend(self.__session.query(Review).all())
             #objs.extend(self.__session.query(Amenity).all())
         else:
             try:
