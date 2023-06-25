@@ -55,6 +55,7 @@ class TestHBNBCommand(unittest.TestCase):
         check = style.check_files(["console.py"])
         self.assertEqual(check.total_errors, 0, "fix Pep8")
 
+    @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
     def test_create_kwargs(self):
         """Test create command with kwargs."""
         with patch("sys.stdout", new=StringIO()) as f:
@@ -83,6 +84,7 @@ class TestHBNBCommand(unittest.TestCase):
             self.assertEqual(
                 "** class doesn't exist **\n", f.getvalue())
 
+    @unittest.skipIf(type(models.storage) == DBStorage, "Testing DBStorage")
     def test_create(self):
         """Test create command."""
         with patch("sys.stdout", new=StringIO()) as f:
