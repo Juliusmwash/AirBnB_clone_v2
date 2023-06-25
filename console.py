@@ -192,7 +192,6 @@ class HBNBCommand(cmd.Cmd):
             print("Error: {}".format(str(e)))
             return
 
-
     def help_create(self):
         """ Help information for the create method """
         print("Creates a class of any type")
@@ -275,7 +274,7 @@ class HBNBCommand(cmd.Cmd):
                 return
             if getenv('HBNB_TYPE_STORAGE') == 'db':
                 for k, v in storage.all(args).items():
-                        print_list.append(str(v))
+                    print_list.append(str(v))
             else:
                 for k, v in storage._FileStorage__objects.items():
                     if k.split('.')[0] == args:
@@ -283,7 +282,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             if getenv('HBNB_TYPE_STORAGE') == 'db':
                 for k, v in storage.all().items():
-                        print_list.append(str(v))
+                    print_list.append(str(v))
             else:
                 for k, v in storage._FileStorage__objects.items():
                     print_list.append(str(v))
