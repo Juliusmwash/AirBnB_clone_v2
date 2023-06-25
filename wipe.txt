@@ -1,0 +1,1 @@
+alias wipe='rm -rf __pycache__ ; cd models ; rm -rf __pycache__ ; cd .. ; cd tests ; rm -rf __pycache__ ; cd test_models ; rm -rf __pycache__ ; cd test_engine ; rm -rf __pycache__ ; cd .. ; cd .. ; cd .. ; cd models ; cd engine ; rm -rf __pycache__ ; cd .. ; cd ..'
