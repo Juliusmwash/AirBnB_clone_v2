@@ -12,7 +12,7 @@ def do_pack():
     Generates a .tgz archive from the contents of the web_static
     folder of AirBnB Clone repo
     """
-    if isdar("versions") is False:
+    if isdir("versions") is False:
         if local('mkdir -p versions').failed is True:
             return None
     now = datetime.now()
