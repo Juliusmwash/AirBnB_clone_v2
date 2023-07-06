@@ -29,7 +29,7 @@ sudo chown -R ubuntu:ubuntu /data/
 # Update Nginx configuration
 #sudo sed -i '/server_name/a \\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default
 
-if ! cat /etc/nginx/sites-available/default | grep -q "location /hbnb_static/ {"; then
+if ! grep -q "location /hbnb_static/ {" /etc/nginx/sites-available/default; then
     awk '{print} /}/ && ++count == 3 {system("echo \"\\n    location /hbnb_static/ {\\n        alias /data/web_static/current/;\\n    }\"")}' /etc/nginx/sites-available/default > mwass.txt && cat mwass.txt > /etc/nginx/sites-available/default
     rm mwass.txt
 fi
