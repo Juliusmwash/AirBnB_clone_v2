@@ -41,10 +41,11 @@ def do_deploy(archive_path, conn):
         return False
     conn.run('mkdir tmp')
     conn.put(archive_path, 'tmp')
-    conn.run(f'mkdir -p {extract_path}'
+    conn.run(f'mkdir -p {extract_path}')
     conn.run(f'sudo tar -xzf tmp/{file} -C {extract_path}')
     conn.run(f'rm -rf tmp/{file}')
-    conn.run(f'mv {extract_path}/web_static/* {extract_path}')
+    conn.run(f'sudo chmod -R +rw {extract_path}/web_static')
+    conn.run(f'sudo mv {extract_path}/web_static/* {extract_path}')
     conn.run(f'rm -rf {extract_path}/web_static')
     conn.run('rm -rf /data/web_static/current')
     conn.run(f'ln -s {extract_path} /data/web_static/current')
