@@ -27,10 +27,10 @@ def get_file():
 
 
 archive_path = get_file()
+file = get_file().split('/')[1]
 file_no_ext = get_file().split('/')[1].split('.')[0]
-extract_path = '/data/web_static/releases/' + file_no_ext
-print(extract_path)
-sys.exit()
+extract_path = '/data/web_static/releases/' + file_no_ext + '/'
+
 
 def do_deploy(archive_path, conn):
     """
@@ -40,7 +40,14 @@ def do_deploy(archive_path, conn):
     if not isfile(archive_path):
         return False
     conn.run('mkdir tmp')
-    conn.put(file, 'tmp')
+    conn.put(archive_path, 'tmp')
+    conn.run(f'mkdir -p {extract_path}'
+    conn.run(f'sudo tar -xzf tmp/{file} -C {extract_path}')
+    conn.run(f'rm -rf tmp/{file}')
+    conn.run(f'mv {extract_path}/web_static/* {extract_path}')
+    conn.run(f'rm -rf {extract_path}/web_static')
+    conn.run('rm -rf /data/web_static/current')
+    conn.run(f'ln -s {extract_path} /data/web_static/current')
 
 
 for connctn in connections:
