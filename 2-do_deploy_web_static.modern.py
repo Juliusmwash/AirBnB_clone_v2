@@ -3,6 +3,7 @@
 Defines do_deploy function
 """
 
+import sys
 import os
 from fabric import Connection
 from os.path import isdir, isfile, join
@@ -26,7 +27,10 @@ def get_file():
 
 
 archive_path = get_file()
-
+file_no_ext = get_file().split('/')[1].split('.')[0]
+extract_path = '/data/web_static/releases/' + file_no_ext
+print(extract_path)
+sys.exit()
 
 def do_deploy(archive_path, conn):
     """
@@ -35,11 +39,8 @@ def do_deploy(archive_path, conn):
     """
     if not isfile(archive_path):
         return False
-    file = archive_path.split('/')[1]
-    conn.run('sudo mkdir -p /home/ubuntu/tmp_test')
-    conn.run('sudo chown ubuntu:ubuntu /home/ubuntu/tmp_test')
-    conn.put(file, '/home/ubuntu/tmp_test')
-    conn.run('ls tmp_test')
+    conn.run('mkdir tmp')
+    conn.put(file, 'tmp')
 
 
 for connctn in connections:
