@@ -14,7 +14,7 @@ def make_connections():
         connections.append(conn)
     return connections
 
-print(sys.argv[1])
+
 def do_clean(number=0):
     """
     Deletes out-of-date archives.
@@ -48,7 +48,8 @@ def do_clean(number=0):
                     conn.run(f'sudo rm -rf {directory}')
             else:
                 if num_directories_to_delete > 1:
-                    directories_to_delete = directories[:num_directories_to_delete]
+                    directories_to_delete = \
+                            directories[:num_directories_to_delete]
                     for directory in directories_to_delete:
                         conn.run(f'sudo rm -rf {directory}')
 
