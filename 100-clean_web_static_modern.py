@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Defines do_clean function """
 from fabric import Connection
+import sys
 
 
 def make_connections():
@@ -13,7 +14,7 @@ def make_connections():
         connections.append(conn)
     return connections
 
-
+print(sys.argv[1])
 def do_clean(number=0):
     """
     Deletes out-of-date archives.
@@ -52,4 +53,8 @@ def do_clean(number=0):
                         conn.run(f'sudo rm -rf {directory}')
 
 
-do_clean()
+if len(sys.argv) > 1:
+    number = int(sys.argv[1])
+else:
+    number = 0
+do_clean(number)
