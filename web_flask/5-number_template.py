@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Flask web application """
+
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -39,7 +40,10 @@ def number(n):
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
     """Route to display an HTML page only if n is an integer"""
-    return render_template('5-number.html', n=n)
+    if isinstance(n, int):
+        return render_template('5-number_template.html', n=n)
+    else:
+        pass
 
 
 if __name__ == '__main__':
