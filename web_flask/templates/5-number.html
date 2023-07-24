@@ -1,11 +1,11 @@
-{% if n is defined and n is int %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Number Template</title>
+	<title>Number Template</title>
 </head>
 <body>
-    <h1>Number: {{ n }}</h1>
+	{% if n is defined and n is int %}
+	<h1>Number: {{ n }}</h1>
+	{% endif %}
 </body>
 </html>
-{% endif %}
